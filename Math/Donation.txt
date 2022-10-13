@@ -1,0 +1,2 @@
+put amount as your int(Address)
+then make msg.value equals int(Address)/(10**18*10**18)
